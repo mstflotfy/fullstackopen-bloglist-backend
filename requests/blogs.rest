@@ -1,0 +1,33 @@
+### get_all_blogs
+GET http://localhost:3003/api/blogs/
+
+### get_one_blog
+GET http://localhost:3003/api/blogs/6617f71372007a66718bbbf6
+
+### create_blog
+POST http://localhost:3003/api/blogs/
+content-type: application/json
+
+{
+  "title": "test blog post",
+  "author": "test author",
+  "url": "/test-blog-post",
+  "likes": 2
+}
+
+### delete_blog
+DELETE http://localhost:3003/api/blogs/6617f71372007a66718bbbf6
+
+### update_blog
+PUT http://localhost:3003/api/blogs/6617f71372007a66718bbbf6
+content-type: application/json
+
+{
+  "title": "Update blog",
+  "author": "test author",
+  "url": "/test-blog-post",
+  "likes": 2
+}
+
+### get_unkown
+GET http://localhost:3003/x
