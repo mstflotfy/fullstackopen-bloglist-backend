@@ -1,12 +1,17 @@
 const blogsRouter = require('express').Router();
 const { Blog } = require('../models/blog');
 
-blogsRouter.get('/', (request, response) => {
+/* blogsRouter.get('/', (request, response) => {
   Blog
     .find({})
     .then((blogs) => {
       response.json(blogs);
     });
+}); */
+// Use async/await instead of promises
+blogsRouter.get('/', async (request, response) => {
+  const blogs = await Blog.find({});
+  response.json(blogs);
 });
 
 blogsRouter.post('/', (request, response) => {
