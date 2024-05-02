@@ -50,7 +50,7 @@ test('A valid blog can be added', async () => {
   assert(blogsTitles.includes(newBlog.title));
 });
 
-test.only('adding a post without likes defaults to zero', async () => {
+test('adding a post without likes defaults to zero', async () => {
   const newBlog = {
     title: 'post without likes',
     author: 'somebody',
@@ -62,6 +62,18 @@ test.only('adding a post without likes defaults to zero', async () => {
     .expect(201)
     .expect('content-type', /application\/json/);
   assert.strictEqual(res.body.likes, 0);
+});
+
+test.only('a post without title or url is not added', async () => {
+  const newBlog = {
+    url: '/do-not-add',
+    author: 'nobody',
+    likes: 10,
+  };
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400);
 });
 
 after(async () => {
