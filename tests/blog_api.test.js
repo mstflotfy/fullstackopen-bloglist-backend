@@ -1,4 +1,6 @@
-const { test, after, beforeEach } = require('node:test');
+const {
+  test, after, beforeEach, describe,
+} = require('node:test');
 const assert = require('node:assert');
 const mongoose = require('mongoose');
 const supertest = require('supertest');
@@ -64,7 +66,7 @@ test('adding a post without likes defaults to zero', async () => {
   assert.strictEqual(res.body.likes, 0);
 });
 
-test.only('a post without title or url is not added', async () => {
+test('a post without title or url is not added', async () => {
   const newBlog = {
     url: '/do-not-add',
     author: 'nobody',
@@ -74,6 +76,32 @@ test.only('a post without title or url is not added', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(400);
+});
+
+describe.only('deleting a post', () => {
+  test.only('succeeds with status code 204 with a valid id', async () => {
+    const blogsAtStart = await helper.blogsInDb();
+    const blogToDel = blogsAtStart[0];
+
+    await api
+      .delete(`/api/blogs/${blogToDel.id}`)
+      .expect(204);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1);
+  });
+  test.only('fails with status 404 when the id is not found', async () => {
+    const notFoundId = await helper.nonExistingId();
+    await api
+      .delete(`/api/blogs/${notFoundId}`)
+      .expect(404);
+  });
+  test.only('fails with status code 400 when the id is not valid', async () => {
+    const invalidId = '123';
+    await api
+      .delete(`/api/blogs/${invalidId}`)
+      .expect(400);
+  });
 });
 
 after(async () => {
