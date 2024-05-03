@@ -36,7 +36,21 @@ blogsRouter.delete('/:id', async (request, response) => {
       response.status(404).end();
     }
   } catch (err) {
-    response.status(400).end();
+    if (err.name === 'CastError') response.status(400).end().json({ error: 'Invalid blog ID' });
+  }
+});
+
+blogsRouter.put('/:id', async (request, response) => {
+  const post = request.body;
+  try {
+    const updated = await Blog.findByIdAndUpdate(request.params.id, post, { new: true });
+    if (updated) {
+      response.status(200).json(updated).end();
+    } else {
+      response.status(404).end();
+    }
+  } catch (err) {
+    if (err.name === 'CastError') response.status(400).end().json({ error: 'Invalid blog ID' });
   }
 });
 
