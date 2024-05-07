@@ -1,0 +1,12 @@
+## Get_all_users
+get http://localhost:3003/api/users
+
+## Create_new_user
+post http://localhost:3003/api/users/
+Content-Type: application/json
+
+{
+  "name": "Ahm Fazary",
+  "username": "fez",
+  "password": "321"
+}
