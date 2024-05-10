@@ -11,8 +11,8 @@ const { Blog } = require('../models/blog');
 
 const api = supertest(app);
 
-describe.only('Test Blogs API', () => {
-  describe.only('when there is initially some blogs saved', () => {
+describe('Test Blogs API', () => {
+  describe('when there is initially some blogs saved', () => {
     beforeEach(async () => {
       // Ensure the db is in the same state before each test is run
       await Blog.deleteMany({});
@@ -81,8 +81,8 @@ describe.only('Test Blogs API', () => {
         .expect(400);
     });
 
-    describe.only('deleting a post', () => {
-      test.only('succeeds with status code 204 with a valid id', async () => {
+    describe('deleting a post', () => {
+      test('succeeds with status code 204 with a valid id', async () => {
         const blogsAtStart = await helper.blogsInDb();
         const blogToDel = blogsAtStart[0];
 

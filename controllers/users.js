@@ -5,6 +5,10 @@ const User = require('../models/user');
 usersRouter.post('/', async (request, response) => {
   const { name, username, password } = request.body;
 
+  // validate password
+  if (!password) return response.status(401).json({ error: 'Password is required' });
+  if (password.length < 3) return response.status(401).json({ error: 'Password is too weak' });
+
   const saltRounds = 12;
   const passwordHash = await bcrypt.hash(password, saltRounds);
 
@@ -16,7 +20,7 @@ usersRouter.post('/', async (request, response) => {
 
   const savedUser = await user.save();
 
-  response.status(201).json(savedUser);
+  return response.status(201).json(savedUser);
 });
 
 usersRouter.get('/', async (request, response) => {
