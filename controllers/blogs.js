@@ -1,6 +1,15 @@
+const jwt = require('jsonwebtoken');
 const blogsRouter = require('express').Router();
 const { Blog } = require('../models/blog');
 const User = require('../models/user');
+
+const getTokenFrom = (request) => {
+  const authorization = request.get('authorization');
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '');
+  }
+  return null;
+};
 
 /* blogsRouter.get('/', (request, response) => {
   Blog
@@ -18,8 +27,14 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body);
 
-  const selectedUser = await User.findOne({});
+  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'invalid token' });
+  }
+  const selectedUser = await User.findById(decodedToken.id);
+
   blog.user = selectedUser.id;
+  blog.author = selectedUser.name;
 
   if (!blog.likes) blog.likes = 0;
 
@@ -29,8 +44,10 @@ blogsRouter.post('/', async (request, response) => {
     const savedBlog = await blog.save();
     selectedUser.blogs = selectedUser.blogs.concat(savedBlog._id);
     await selectedUser.save();
-    response.status(201).json(savedBlog);
+    response.status(201).json(savedBlog).end();
   }
+
+  // return response.status(400);
 });
 
 blogsRouter.delete('/:id', async (request, response) => {
