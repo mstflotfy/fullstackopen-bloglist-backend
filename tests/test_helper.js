@@ -4,13 +4,14 @@ const User = require('../models/user');
 const initialBlogs = [
   {
     title: 'How to become an early riser',
-    author: 'mstflotfy',
+    author: 'Mostafa Lotfy',
     url: '/early-riser',
     likes: 10,
+    user: '6655e9edb21550b36e27515b',
   },
   {
     title: 'Another title',
-    author: 'another person',
+    author: 'Omar',
     url: '/another-title',
     likes: 1000,
   },

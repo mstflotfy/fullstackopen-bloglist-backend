@@ -40,7 +40,15 @@ blogsRouter.post('/', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
   const { user } = request;
-  const blog = await Blog.findById(request.params.id);
+  let blog;
+
+  try {
+    blog = await Blog.findById(request.params.id);
+  } catch (error) {
+    return response.status(400).json({ error: 'invalid id' });
+  }
+
+  if (!blog) return response.status(404).json({ error: 'id not found' });
 
   if (blog.user.toString() === user.id) {
     try {

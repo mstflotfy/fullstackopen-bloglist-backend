@@ -1,5 +1,6 @@
 ### get_all_blogs
 GET http://localhost:3003/api/blogs/
+Authorization: Bearer 
 
 ### get_one_blog
 GET http://localhost:3003/api/blogs/664b7883302ca4200f1ac674
@@ -7,7 +8,6 @@ GET http://localhost:3003/api/blogs/664b7883302ca4200f1ac674
 ### create_blog
 POST http://localhost:3003/api/blogs/
 content-type: application/json
-//Authorization: Bearer 
 
 {
   "title": "test blog post",
@@ -17,8 +17,8 @@ content-type: application/json
 }
 
 ### delete_blog
-DELETE http://localhost:3003/api/blogs/664c68f07f368fbc0ac5b2e5
-//Authorization: Bearer ..
+DELETE http://localhost:3003/api/blogs/663dcdeb8eed78373b4188c3
+Authorization: Bearer 
 
 ### update_blog
 PUT http://localhost:3003/api/blogs/6617f71372007a66718bbbf6
